@@ -12,8 +12,13 @@ new Vue({
             this.userHealth = 100;
             this.monsterHealth = 100;
         },
-        attack: function() {
-            let userAttack = this.calculateDamage(5, 12);
+        attack: function(specialAttack) {
+            let min = 5, max = 12;
+            if (specialAttack) {
+                min = 10;
+                max = 20;
+            }
+            let userAttack = this.calculateDamage(min, max);
             this.warLog.push(userAttack);
             this.monsterHealth -= userAttack;
             if (this.checkGame()){
@@ -27,7 +32,7 @@ new Vue({
             this.checkGame();
         },
         specialAttack: function() {
-            
+            this.attack(true);
         },
         heal: function() {
             let healingAmount = this.userHealth <= 90 ? 10: 100 - this.userHealth;
