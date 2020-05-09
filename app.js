@@ -13,12 +13,18 @@ new Vue({
             this.monsterHealth = 100;
         },
         attack: function() {
-            let userAttack = this.random();
-            let monsterAttack = this.random();
-            this.warLog.push(userAttack, monsterAttack);
-            this.userHealth -= monsterAttack;
+            let userAttack = this.calculateDamage(5, 12);
+            this.warLog.push(userAttack);
             this.monsterHealth -= userAttack;
-            this.checkWinner();
+            if (this.checkGame()){
+                return;
+            }
+
+            let monsterAttack = this.calculateDamage(3, 10);
+            this.warLog.push(monsterAttack);
+            this.userHealth -= monsterAttack;
+            
+            this.checkGame();
         },
         specialAttack: function() {
             
@@ -26,10 +32,11 @@ new Vue({
         heal: function() {
             let healingAmount = this.userHealth <= 90 ? 10: 100 - this.userHealth;
             this.warLog.push(healingAmount);
-            let monsterAttack = this.random();
+
+            let monsterAttack = this.calculateDamage(3, 10);
             this.userHealth -= monsterAttack;
             this.warLog.push(monsterAttack);
-            this.checkWinner();
+            this.checkGame();
         },
         endGame: function() {
             this.gameStarted = false;
@@ -38,20 +45,27 @@ new Vue({
         giveUp: function() {
 
         },
-        random: function() {
-            return Math.floor(Math.random()*10);
+        calculateDamage: function(min, max) {
+            return Math.max(Math.floor(Math.random() * max + 1),min);
         },
-        checkWinner: function() {
-            if (this.userHealth <= 0) {
-                if (confirm('You lost !!\n\nStart new game?')){
-                    this.endGame();
-                };
-            }
+        checkGame: function() {
             if (this.monsterHealth <= 0) {
-                if (confirm('You winn !!\n\nStart new game?')){
-                    this.endGame();
-                };
+                if (confirm('You won!!\nStart new game?')){
+                    this.startGame();
+                } else {
+                    this.gameStarted = false;
+                }
+                return true;
             }
+            if (this.userHealth <= 0) {
+                if (confirm('You lost !!\nStart new game?')){
+                    this.startGame();
+                } else {
+                    this.gameStarted = false;
+                }
+                return true;
+            }
+            return false;
         }
     }
 })
