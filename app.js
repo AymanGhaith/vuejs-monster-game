@@ -11,6 +11,7 @@ new Vue({
             this.gameStarted = true;
             this.userHealth = 100;
             this.monsterHealth = 100;
+            this.warLog = [];
         },
         attack: function(specialAttack) {
             let min = 5, max = 12, message = "";
