@@ -20,14 +20,14 @@ new Vue({
                 message = "(Special Attack) "
             }
             let userAttack = this.calculateDamage(min, max);
-            this.warLog.push(message + "You attacked the monster with: " + userAttack + " power");
+            this.warLog.push({isPlayer: true, text: message + "You attacked the monster with: " + userAttack + " power"});
             this.monsterHealth -= userAttack;
             if (this.checkGame()){
                 return;
             }
 
             let monsterAttack = this.calculateDamage(3, 10);
-            this.warLog.push("Monster attacked you with: " + monsterAttack + " power");
+            this.warLog.push({isPlayer: false, text: "Monster attacked you with: " + monsterAttack + " power"});
             this.userHealth -= monsterAttack;
             
             this.checkGame();
@@ -37,11 +37,11 @@ new Vue({
         },
         heal: function() {
             let healingAmount = this.userHealth <= 90 ? 10: 100 - this.userHealth;
-            this.warLog.push("You got healed with: " + healingAmount);
+            this.warLog.push({isPlayer: true, text: "You got healed with: " + healingAmount});
 
             let monsterAttack = this.calculateDamage(3, 10);
             this.userHealth -= monsterAttack;
-            this.warLog.push("Monster attacked you with: " + monsterAttack + " power");
+            this.warLog.push({isPlayer: false, text: "Monster attacked you with: " + monsterAttack + " power"});
             this.checkGame();
         },
         endGame: function() {
