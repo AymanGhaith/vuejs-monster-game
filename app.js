@@ -2,6 +2,7 @@ new Vue({
     el: '#app',
     data: {
         monsterHealth: 100,
-        userHealth: 50
+        userHealth: 50,
+        gameStarted: false
     }
 })
