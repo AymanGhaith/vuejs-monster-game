@@ -45,10 +45,6 @@ new Vue({
             this.warLog.push({isPlayer: false, text: "Monster attacked you with: " + monsterAttack + " power"});
             this.checkGame();
         },
-        endGame: function() {
-            this.gameStarted = false;
-            
-        },
         giveUp: function() {
             this.gameStarted = false;
         },
